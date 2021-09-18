@@ -1,0 +1,2 @@
+# HacktheNorth
+Stock predicting App
