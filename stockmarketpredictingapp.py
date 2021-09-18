@@ -92,7 +92,7 @@ def getStock(stock, startdate, enddate):
   pickle.dump(model, open(filename, 'wb'))
 
 
-def getPrediction()
+def getPrediction():
   loaded_model = pickle.load(open(filename, 'rb'))
   result = loaded_model.score(X_test, Y_test)
   return result
