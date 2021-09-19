@@ -5,7 +5,27 @@
 {% endblock %}
 
 {% block body %}
-<h1>Template</h1>
-<body>pls</body>
+    <h1>Template</h1>
+    <p>pls</p>
+    <div>
+    <form action = "." method = "post" name = "selection"> 
+          <label> 
+            Enter stock name
+            <input type = "text" placeholder = "stock" name = "stock" required/>
+          </label>
+          <label> 
+            Enter start date of stock
+            <input type = "date" id = "startdate" name = "startdate" required/>
+          </label>
+          <label> 
+            Enter end date of stock
+            <input type = "date" id = "enddate" name = "enddate" required/>
+          </label>
+          <button type = "submit" value= "submit"> 
+            Submit
+          </button>
+    </form>
+    </div>
+
 
 {% endblock %}
