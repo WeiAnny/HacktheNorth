@@ -6,6 +6,7 @@ def homepage():
     if request.method == 'POST':
         form = request.form #json format? ish
         stock = form['stock'] #id in html
-        
-    pass
+    return render_template('index.html')
 
+if __name__ == "__main__"
+    app.run(debug = True)

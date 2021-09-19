@@ -249,4 +249,4 @@ def predict(stock, startdate, enddate):
 
 
 print(getStock('AAPL', '2018-01-01', '2021-09-18'))
-print(predict('AAPL', '2018-01-01', '2021-09-18'))
+print(getStock('AAPL', '2018-01-01', '2021-09-18'))
