@@ -20,7 +20,9 @@ def getStock():
     stock = request.form['stock'] #id in html
     startdate = request.form['startdate']
     enddate = request.form['enddate']
-    return render_template('result.html', stock = stock)
+    prediction = predict(stock, startdate, enddate)
+    
+    return render_template('result.html', stock = stock, prediction = prediction, enddate = enddate)
 
 @app.route('/<name>', methods = ['POST', 'GET'])
 def getResult(name):
