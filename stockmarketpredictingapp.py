@@ -34,6 +34,8 @@ import pickle
 #access model from pickle file
 #save generated img locally + upload
 
+
+
 def getStock(stock, startdate, enddate):
   df = pdr.get_data_yahoo(stock, start=startdate, end=enddate)
   data= df.filter(['Close'])
@@ -85,44 +87,7 @@ def getStock(stock, startdate, enddate):
   train = data[:training_data_len]
   valid = data[training_data_len:]
   valid['Predictions'] = predictions
-
-  plt.figure(figsize = (16, 8))
-  plt.title('Close Price History')
-  plt.plot(df['Close'])
-  plt.xlabel('Date', fontsize = 18)
-  plt.ylabel('Close Price USD ($)', fontsize = 18)
-  plt.show
-
-  #step 1: get the quote
-  apple_quote = pdr.get_data_yahoo(stock, start="2012-01-01", end="2021-09-16")
-  #create a new dataframe
-  new_df = apple_quote.filter({'Close'})
-  #get the last 60 day closing price values and convert the datafram to an array
-  last_60_days = new_df[-60:].values
-  #scale the data to be values between 0 and 1
-  last_60_days_scaled = scaler.transform(last_60_days)
-  #create an empty list
-  X_test = []
-  #append the past 60 days
-  X_test.append(last_60_days_scaled)
-  #convert the x_test data set to a nump array 
-  X_test = np.array(X_test)
-  #reshape the data
-  X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
-  #get the predicted scale price
-  pred_price = model.predict(X_test)
-  #undo the scaling
-  pred_price = scaler.inverse_transform(pred_price)
-  print(pred_price)
-  plt.figure(figsize = (16,8))
-  plt.title('Model')
-  plt.xlabel('Date', fontsize = 18)
-  plt.ylabel('Close Price USD ($)', fontsize = 18)
-  plt.plot(train['Close'])
-  plt.plot(valid[['Close', 'Predictions']])
-  plt.legend(['Train', 'Val', 'Predictions'], loc = 'lower right')
-  plt.savefig('foo.png')
-
+  return valid
 
 def getImage(stock, startdate, enddate):
   df = pdr.get_data_yahoo(stock, start=startdate, end=enddate)
@@ -176,15 +141,9 @@ def getImage(stock, startdate, enddate):
   valid = data[training_data_len:]
   valid['Predictions'] = predictions
 
-  plt.figure(figsize = (16, 8))
-  plt.title('Close Price History')
-  plt.plot(df['Close'])
-  plt.xlabel('Date', fontsize = 18)
-  plt.ylabel('Close Price USD ($)', fontsize = 18)
-  plt.show
 
   #step 1: get the quote
-  apple_quote = pdr.get_data_yahoo(stock, start="2012-01-01", end="2021-09-16")
+  apple_quote = pdr.get_data_yahoo(stock, start=startdate, end=enddate)
   #create a new dataframe
   new_df = apple_quote.filter({'Close'})
   #get the last 60 day closing price values and convert the datafram to an array
@@ -266,15 +225,8 @@ def predict(stock, startdate, enddate):
   valid = data[training_data_len:]
   valid['Predictions'] = predictions
 
-  plt.figure(figsize = (16, 8))
-  plt.title('Close Price History')
-  plt.plot(df['Close'])
-  plt.xlabel('Date', fontsize = 18)
-  plt.ylabel('Close Price USD ($)', fontsize = 18)
-  plt.show
-
   #step 1: get the quote
-  apple_quote = pdr.get_data_yahoo(stock, start="2012-01-01", end="2021-09-16")
+  apple_quote = pdr.get_data_yahoo(stock, start=startdate, end=enddate)
   #create a new dataframe
   new_df = apple_quote.filter({'Close'})
   #get the last 60 day closing price values and convert the datafram to an array
@@ -293,12 +245,8 @@ def predict(stock, startdate, enddate):
   pred_price = model.predict(X_test)
   #undo the scaling
   pred_price = scaler.inverse_transform(pred_price)
-  print(pred_price)
-  plt.figure(figsize = (16,8))
-  plt.title('Model')
-  plt.xlabel('Date', fontsize = 18)
-  plt.ylabel('Close Price USD ($)', fontsize = 18)
-  plt.plot(train['Close'])
-  plt.plot(valid[['Close', 'Predictions']])
-  plt.legend(['Train', 'Val', 'Predictions'], loc = 'lower right')
-  plt.savefig('foo.png')
+  return pred_price
+
+
+print(getStock('AAPL', '2018-01-01', '2021-09-18'))
+print(predict('AAPL', '2018-01-01', '2021-09-18'))
